@@ -15,6 +15,7 @@ import BlogListPage from "../pages/client/BlogListPage";
 import BlogDetailPage from "../pages/client/BlogDetailPage";
 import OrderPage from "../pages/client/OrderPage";
 import WishListProductPage from "../pages/client/WishListProductPage";
+import NewsPage from "../pages/client/NewsPage";
 
 export const clientRoutes = [
   // common
@@ -38,6 +39,7 @@ export const clientRoutes = [
   // blog
   { path: "blogs", element: <BlogListPage /> },
   { path: "blogs/:slug", element: <BlogDetailPage /> },
+  { path: "tin-tuc", element: <NewsPage /> },
 
   // user
   { path: "me/profile/:id", element: <ProfilePage /> },

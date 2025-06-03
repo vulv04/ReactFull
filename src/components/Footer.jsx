@@ -159,10 +159,10 @@ const Footer = () => {
             style={{ margin: "8px 0" }}
           />
           <Text>Liên kết sàn:</Text>
-            <img
-              src="https://bizweb.dktcdn.net/100/491/897/themes/915864/assets/shopee.png?1738662131654"
-              alt="lienket"
-            />
+          <img
+            src="https://bizweb.dktcdn.net/100/491/897/themes/915864/assets/shopee.png?1738662131654"
+            alt="lienket"
+          />
           <img
             src="https://bizweb.dktcdn.net/100/491/897/themes/915864/assets/laz.png?1738662131654"
             alt="lienket"
@@ -175,7 +175,7 @@ const Footer = () => {
         </Column>
       </Container>
       <BottomText>
-        Bản quyền thuộc về <strong>Sudes theme</strong>. Cung cấp bởi Sapo
+        Copyright © <strong>Vukibo</strong>.
       </BottomText>
     </FooterST>
   );

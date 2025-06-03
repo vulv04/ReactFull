@@ -1,8 +1,14 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import ToggleTheme from "./ToggleTheme";
+import CategoryPage from "../pages/client/CategoryPage";
+import { useLanguage } from "../contexts/LanguageContext";
+import translations from "../i18n/lang";
+
 const Header = () => {
   const navigate = useNavigate();
+  const { lang, setLang } = useLanguage(); // 👈 Lấy thêm setLang
+  const t = (key) => translations[lang][key] || key; // 👈 Tạo hàm t()
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
@@ -38,19 +44,33 @@ const Header = () => {
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <NavLink to="/" className="nav-link">
-                  Home
+                  {t("home")}
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to="/categories" className="nav-link">
-                  Categories 👉
-                </NavLink>
-              </li>
+
+              <CategoryPage />
+
               <li className="nav-item">
                 <NavLink to="/about" className="nav-link">
-                  About
+                  {t("about")}
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink to="/blogs" className="nav-link">
+                  {t("blog")}
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/contact" className="nav-link">
+                  {t("contact")}
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/tin-tuc" className="nav-link">
+                  {t("news")}
+                </NavLink>
+              </li>
+
               {user ? (
                 <li className="nav-item dropdown">
                   <button
@@ -81,7 +101,7 @@ const Header = () => {
                         className="dropdown-item"
                         to={`/me/profile/${user.id}`}
                       >
-                        Profile
+                        {t("profile")}
                       </NavLink>
                     </li>
                     <li>
@@ -93,7 +113,7 @@ const Header = () => {
                           handleLogout();
                         }}
                       >
-                        Logout
+                        {t("logout")}
                       </a>
                     </li>
                   </ul>
@@ -102,12 +122,12 @@ const Header = () => {
                 <>
                   <li className="nav-item">
                     <NavLink to="/auth/login" className="nav-link">
-                      Login
+                      {t("login")}
                     </NavLink>
                   </li>
                   <li className="nav-item">
                     <NavLink to="/auth/register" className="nav-link">
-                      Register
+                      {t("register")}
                     </NavLink>
                   </li>
                 </>
@@ -116,6 +136,32 @@ const Header = () => {
                 <div className="nav-link">
                   <ToggleTheme />
                 </div>
+              </li>
+              <li className="nav-item dropdown">
+                <button
+                  className="btn btn-sn btn-outline-dark dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                >
+                  {lang.toUpperCase()}
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => setLang("vi")}
+                    >
+                      Tiếng Việt
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => setLang("en")}
+                    >
+                      English
+                    </button>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

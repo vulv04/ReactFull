@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import isPropValid from "@emotion/is-prop-valid";
 import {
   FiChevronLeft,
   FiChevronRight,
@@ -9,6 +10,7 @@ import {
 } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 
+// Sidebar container
 const SidebarWrapper = styled.div`
   width: ${(props) => (props.collapsed ? "80px" : "240px")};
   transition: width 0.3s ease;
@@ -22,6 +24,7 @@ const SidebarWrapper = styled.div`
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 `;
 
+// Collapse toggle button
 const ToggleButton = styled.button`
   background: none;
   border: none;
@@ -37,13 +40,17 @@ const ToggleButton = styled.button`
   }
 `;
 
+// Menu container
 const Menu = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
 `;
 
-const MenuItem = styled(NavLink)`
+// MenuItem: fix prop warning by filtering "collapsed" from being passed to DOM
+const MenuItem = styled(NavLink, {
+  shouldForwardProp: (prop) => isPropValid(prop) && prop !== "collapsed",
+})`
   display: flex;
   align-items: center;
   color: white;
@@ -58,7 +65,6 @@ const MenuItem = styled(NavLink)`
   }
 
   &.active {
-    background-color: #1abc9c;
     color: #fff;
   }
 
