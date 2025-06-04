@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { getProducts } from "../../api/productApi";
 
 // Component card 1 bài blog
 const BlogCard = ({ title, description, image, date }) => (
@@ -34,7 +35,7 @@ const BlogListPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const res = await axios.get("https://vukibo.onrender.com/products");
+        const res = await getProducts();
         // Giả sử res.data là mảng sản phẩm
         const products = res.data.products || res.data;
 

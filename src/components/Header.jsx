@@ -18,7 +18,14 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 1000,
+        backgroundColor: "#fff",
+      }}
+    >
       <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div className="container">
           <NavLink className="navbar-brand fw-bold" to="/">

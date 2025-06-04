@@ -8,8 +8,8 @@ const ClientLayout = () => {
     <>
       <Header />
       <main>
-        <Outlet />
-      </main>
+  <Outlet />
+</main>
       <Footer />
     </>
   );

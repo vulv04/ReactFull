@@ -2,15 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NewsSidebar from "../../components/NewsSidebar";
 import NewsGrid from "../../components/NewsGrid";
+import { getProducts } from "../../api/productApi";
 
 export default function NewsPage() {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://vukibo.onrender.com/products")
-      .then((res) => setArticles(res.data))
-      .catch((err) => console.error("Lỗi tải dữ liệu", err));
+    const fetchArticles = async () => {
+      try {
+        const res = await getProducts();
+        setArticles(res.data);
+      } catch (err) {
+        console.error("Lỗi tải dữ liệu", err);
+      }
+    };
+
+    fetchArticles();
   }, []);
 
   return (

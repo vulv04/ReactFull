@@ -53,7 +53,7 @@ const HeaderAdmin = () => {
     try {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       // Nếu không có user hoặc không phải admin (theo id hoặc role), chuyển hướng
-      if (!storedUser || (storedUser.id !== 5 && storedUser.role !== "admin")) {
+      if (!storedUser || (storedUser.id !== 4 && storedUser.role !== "admin")) {
         navigate("/auth/login");
       } else {
         setUser(storedUser);

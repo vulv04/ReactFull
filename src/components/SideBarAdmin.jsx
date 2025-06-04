@@ -20,9 +20,14 @@ const SidebarWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* Thay đổi này: */
+  max-height: auto; /* hoặc max-height: 60vh; */
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 `;
+
 
 // Collapse toggle button
 const ToggleButton = styled.button`
@@ -69,15 +74,22 @@ const MenuItem = styled(NavLink, {
   }
 
   i {
-    font-size: 20px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: ${(props) => (props.collapsed ? "0" : "12px")};
+    flex-shrink: 0;
   }
 
   span {
     display: ${(props) => (props.collapsed ? "none" : "inline")};
     transition: opacity 0.2s ease;
+    white-space: nowrap;
   }
 `;
+
 
 const SiderBarAdmin = ({ collapsed, onToggle }) => {
   return (
@@ -104,6 +116,42 @@ const SiderBarAdmin = ({ collapsed, onToggle }) => {
             <FiBox />
           </i>
           <span>Products</span>
+        </MenuItem>
+        <MenuItem to="orders" collapsed={collapsed}>
+          <i>
+            <FiBox />
+          </i>
+          <span>Orders</span>
+        </MenuItem>
+        <MenuItem to="categories" collapsed={collapsed}>
+          <i>
+            <FiBox />
+          </i>
+          <span>Categories</span>
+        </MenuItem>
+        <MenuItem to="posts" collapsed={collapsed}>
+          <i>
+            <FiBox />
+          </i>
+          <span>Posts</span>
+        </MenuItem>
+        <MenuItem to="reviews" collapsed={collapsed}>
+          <i>
+            <FiUser />
+          </i>
+          <span>Reviews</span>
+        </MenuItem>
+        <MenuItem to="contact" collapsed={collapsed}>
+          <i>
+            <FiUser />
+          </i>
+          <span>Contact</span>
+        </MenuItem>
+        <MenuItem to="analytics" collapsed={collapsed}>
+          <i>
+            <FiBox />
+          </i>
+          <span>Analytics</span>
         </MenuItem>
         <MenuItem to="settings" collapsed={collapsed}>
           <i>

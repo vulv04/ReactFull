@@ -42,3 +42,16 @@
 [] Trang blog list - 18/6 [] Trang blog detail - 18/6
 
 [] Cập nhật trạng thái đơn hàng và hoàn thiện dự án [23/6] - Báo cáo.
+
+///
+Area Chart – doanh thu và lợi nhuận theo tháng
+
+Radar Chart – điểm đánh giá các yếu tố
+
+Radial Bar Chart – tỷ lệ hoàn thành mục tiêu
+
+Composed Chart – kết hợp Bar + Line
+
+Scatter Chart – phân bố khách hàng
+
+Donut Chart (Pie với innerRadius) – tỷ lệ đơn hàng theo trạng thái

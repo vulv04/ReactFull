@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { getProducts } from "../../api/productApi";
 
 const RecommendedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -7,18 +8,20 @@ const RecommendedProducts = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("https://vukibo.onrender.com/products")
-      .then((res) => {
-        // Giả sử res.data là mảng sản phẩm
+    const fetchProducts = async () => {
+      try {
+        const res = await getProducts();
         const data = res.data.products || res.data;
         setProducts(data);
-      })
-      .catch((err) => {
+      } catch (err) {
         setError("Không thể tải dữ liệu sản phẩm.");
         console.error(err);
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   if (loading) {

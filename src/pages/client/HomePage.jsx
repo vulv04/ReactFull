@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";           
 import Banner from "../../components/Banner";
 import ServiceFeatures from "../../components/ServiceFeatures";
 import SearchBarWithTags from "../../components/SearchBarWithTags";
 import FeaturedProducts from "./FeaturedProducts";
 import RecommendedProducts from "./RecommendedProducts";
 import SpecialCollections from "./SpecialCollections";
+import { getProducts } from "../../api/productApi";
 
 // Card sản phẩm
 const ProductCard = ({ title, description, image, price }) => (
@@ -34,11 +34,12 @@ const HomePage = () => {
   const productsPerPage = 9;
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProducts = async (data) => {
       try {
         setLoading(true);
         setError(null);
-        const res = await axios.get("https://vukibo.onrender.com/products");
+        const res = await getProducts();
+        console.log(res);
         const data = res.data.products || res.data;
         setProducts(data);
       } catch (err) {
@@ -142,7 +143,7 @@ const HomePage = () => {
       </section>
       <FeaturedProducts />
       <RecommendedProducts />
-      <SpecialCollections/>
+      <SpecialCollections />
     </div>
   );
 };

@@ -1,240 +1,240 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import {
-  getProducts,
-  deleteProduct,
-  updateProduct,
-} from "../../api/productApi";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  RadialBarChart,
+  RadialBar,
+  ComposedChart,
+  ScatterChart,
+  Scatter,
+  ZAxis,
+  ResponsiveContainer,
+} from "recharts";
+
+const data = [
+  { name: "Jan", sales: 4000, profit: 2400, customers: 240 },
+  { name: "Feb", sales: 3000, profit: 1398, customers: 221 },
+  { name: "Mar", sales: 2000, profit: 9800, customers: 229 },
+  { name: "Apr", sales: 2780, profit: 3908, customers: 200 },
+  { name: "May", sales: 1890, profit: 4800, customers: 218 },
+  { name: "Jun", sales: 2390, profit: 3800, customers: 250 },
+];
+
+const pieData = [
+  { name: "Electronics", value: 400 },
+  { name: "Clothing", value: 300 },
+  { name: "Furniture", value: 300 },
+  { name: "Books", value: 200 },
+];
+
+const radarData = [
+  { subject: "Quality", A: 120 },
+  { subject: "Speed", A: 98 },
+  { subject: "Price", A: 86 },
+  { subject: "Design", A: 99 },
+  { subject: "Service", A: 85 },
+];
+
+const radialBarData = [{ name: "Goal", value: 80, fill: "#8884d8" }];
+
+const donutData = [
+  { name: "Delivered", value: 300 },
+  { name: "Processing", value: 200 },
+  { name: "Cancelled", value: 100 },
+];
+
+const COLORS = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#aa46be",
+  "#ff6f61",
+];
 
 const DashBoardPage = () => {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [priorityFilter, setPriorityFilter] = useState("");
-  const [sortBy, setSortBy] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [page, setPage] = useState(1);
-  const limit = 5;
-
-  const navigate = useNavigate();
-
-  const fetchData = async () => {
-    try {
-      const res = await getProducts();
-      const data = res.data.products || res.data;
-      setProducts(data);
-    } catch (error) {
-      toast.error("Lỗi khi tải danh sách sản phẩm");
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Bạn có chắc muốn xoá?");
-    if (!confirmDelete) return;
-
-    try {
-      await deleteProduct(id);
-      toast.success("Xoá thành công!");
-      fetchData();
-    } catch (error) {
-      toast.error("Xoá thất bại!");
-    }
-  };
-
-  const handleToggleCompleted = async (todo) => {
-    try {
-      await updateProduct(todo.id, {
-        ...todo,
-        completed: !todo.completed,
-      });
-
-      toast.success("Cập nhật trạng thái thành công!");
-      fetchData();
-    } catch (error) {
-      toast.error("Cập nhật trạng thái thất bại!");
-    }
-  };
-
-  // Lọc, tìm kiếm, sắp xếp
-  const filtered = products
-    .filter((p) =>
-      (p.title || "").toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((p) => (priorityFilter ? p.priority === priorityFilter : true));
-
-  const sorted = [...filtered].sort((a, b) => {
-    if (!sortBy) return 0;
-
-    let valA = a[sortBy];
-    let valB = b[sortBy];
-
-    if (sortBy === "createdAt") {
-      valA = new Date(valA);
-      valB = new Date(valB);
-    }
-
-    if (sortBy === "priority") {
-      const map = { low: 1, medium: 2, high: 3 };
-      valA = map[valA];
-      valB = map[valB];
-    }
-
-    return sortOrder === "asc" ? (valA > valB ? 1 : -1) : valA < valB ? 1 : -1;
-  });
-
-  const totalPages = Math.ceil(sorted.length / limit);
-  const paginated = sorted.slice((page - 1) * limit, page * limit);
-
   return (
-    <div className="container py-4">
-      <ToastContainer />
-      <h2 className="mb-4">Danh sách Todo</h2>
+    <div className="container my-5">
+      <h2 className="mb-4">Dashboard Statistics</h2>
+      <div className="row">
+        {/* 1. Bar Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Monthly Sales & Profit</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="sales" fill="#8884d8" />
+              <Bar dataKey="profit" fill="#82ca9d" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
 
-      {/* Tìm kiếm, lọc, sắp xếp */}
-      <div className="row g-2 mb-4">
-        <div className="col-md-4">
-          <input
-            type="text"
-            placeholder="Tìm theo tiêu đề..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="form-control"
-          />
+        {/* 2. Line Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Monthly Customers</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="customers" stroke="#ff7300" />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
-        <div className="col-md-2">
-          <select
-            value={priorityFilter}
-            onChange={(e) => setPriorityFilter(e.target.value)}
-            className="form-select"
-          >
-            <option value="">Tất cả ưu tiên</option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
+
+        {/* 3. Pie Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Sales by Category</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={pieData}
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                fill="#8884d8"
+                dataKey="value"
+                label
+              >
+                {pieData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-        <div className="col-md-3">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="form-select"
-          >
-            <option value="">Sắp xếp theo</option>
-            <option value="title">Title</option>
-            <option value="createdAt">Created At</option>
-            <option value="priority">Priority</option>
-          </select>
+
+        {/* 4. Area Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Revenue Trend</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart data={data}>
+              <defs>
+                <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="sales"
+                stroke="#8884d8"
+                fillOpacity={1}
+                fill="url(#colorSales)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
-        <div className="col-md-3">
-          <select
-            value={sortOrder}
-            onChange={(e) => {
-              setSortOrder(e.target.value);
-              if (!sortBy) setSortBy("title"); // hoặc chọn mặc định là "createdAt"
-            }}
-            className="form-select"
-          >
-            <option value="asc">Tăng dần</option>
-            <option value="desc">Giảm dần</option>
-          </select>
+
+        {/* 5. Radar Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Performance Metrics</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <RadarChart data={radarData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="subject" />
+              <PolarRadiusAxis />
+              <Radar
+                dataKey="A"
+                stroke="#8884d8"
+                fill="#8884d8"
+                fillOpacity={0.6}
+              />
+              <Tooltip />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* 6. Radial Bar Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Goal Completion</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <RadialBarChart
+              innerRadius="70%"
+              outerRadius="100%"
+              barSize={15}
+              data={radialBarData}
+              startAngle={180}
+              endAngle={0}
+            >
+              <RadialBar minAngle={15} background clockWise dataKey="value" />
+              <Tooltip />
+            </RadialBarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* 7. Composed Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Sales vs Customers</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <ComposedChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="sales" barSize={20} fill="#413ea0" />
+              <Line type="monotone" dataKey="customers" stroke="#ff7300" />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+        {/* 9. Donut Chart */}
+        <div className="col-md-6 mb-4">
+          <h5>Order Status</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={donutData}
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={100}
+                fill="#8884d8"
+                paddingAngle={5}
+                dataKey="value"
+                label
+              >
+                {donutData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
       </div>
-
-      {/* Bảng todo */}
-      <table className="table table-bordered table-hover align-middle">
-        <thead className="table-light">
-          <tr>
-            <th>Title</th>
-            <th>Priority</th>
-            <th>Completed</th>
-            <th style={{ minWidth: "200px" }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginated.map((todo) => (
-            <tr key={todo.id}>
-              <td>{todo.title}</td>
-              <td className={`text-capitalize fw-semibold`}>{todo.priority}</td>
-              <td>
-                {todo.completed ? (
-                  <span className="badge bg-success">Hoàn Thành</span>
-                ) : (
-                  <span className="badge bg-warning text-dark">
-                    Chưa hoàn thành
-                  </span>
-                )}
-              </td>
-              <td>
-                <button
-                  onClick={() => handleToggleCompleted(todo)}
-                  className="btn btn-sm btn-outline-success me-2"
-                >
-                  {todo.completed ? "Bỏ hoàn thành" : "Hoàn thành"}
-                </button>
-                <button
-                  onClick={() => navigate(`/admin/todos/edit/${todo.id}`)}
-                  className="btn btn-sm btn-outline-primary me-2"
-                >
-                  Sửa
-                </button>
-                <button
-                  onClick={() => navigate(`/admin/todos/detail/${todo.id}`)}
-                  className="btn btn-sm btn-outline-secondary me-2"
-                >
-                  Chi tiết
-                </button>
-                <button
-                  onClick={() => handleDelete(todo.id)}
-                  className="btn btn-sm btn-outline-danger"
-                >
-                  Xoá
-                </button>
-              </td>
-            </tr>
-          ))}
-          {paginated.length === 0 && (
-            <tr>
-              <td colSpan={4} className="text-center text-muted">
-                Không có dữ liệu phù hợp
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-      {/* Phân trang */}
-      <nav aria-label="Page navigation example" className="mt-4">
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            >
-              Trang trước
-            </button>
-          </li>
-
-          <li className="page-item disabled">
-            <span className="page-link">
-              Trang {page} / {totalPages}
-            </span>
-          </li>
-
-          <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
-            <button
-              className="page-link"
-              onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-            >
-              Trang sau
-            </button>
-          </li>
-        </ul>
-      </nav>
     </div>
   );
 };

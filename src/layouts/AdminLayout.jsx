@@ -6,23 +6,28 @@ import HeaderAdmin from "../components/HeaderAdmin";
 import SideBarAdmin from "../components/SideBarAdmin";
 
 const LayoutWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 `;
+
 
 const Body = styled.div`
-	display: flex;
-	flex: 1;
-	overflow: hidden;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0; /* 👈 Rất quan trọng để content không vượt quá */
 `;
 
+
 const Content = styled.main`
-	flex: 1;
-	padding: 16px;
-	overflow-y: auto;
-	background-color: #f9f9f9;
+  flex: 1;
+  padding: 16px;
+  background-color: #f9f9f9;
 `;
+
+
+
 
 const AdminLayout = () => {
 	const [collapsed, setCollapsed] = useState(false);
