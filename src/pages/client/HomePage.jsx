@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";           
+import React, { useEffect, useState } from "react";
 import Banner from "../../components/Banner";
 import ServiceFeatures from "../../components/ServiceFeatures";
 import SearchBarWithTags from "../../components/SearchBarWithTags";
@@ -6,24 +6,8 @@ import FeaturedProducts from "./FeaturedProducts";
 import RecommendedProducts from "./RecommendedProducts";
 import SpecialCollections from "./SpecialCollections";
 import { getProducts } from "../../api/productApi";
-
-// Card sản phẩm
-const ProductCard = ({ title, description, image, price }) => (
-  <div className="card h-100 shadow-sm">
-    <img
-      src={image}
-      className="card-img-top"
-      alt={title}
-      style={{ height: "180px", objectFit: "cover" }}
-    />
-    <div className="card-body d-flex flex-column">
-      <h5 className="card-title">{title}</h5>
-      <p className="card-text text-truncate">{description}</p>
-      <div className="mt-auto fw-bold text-primary fs-5">${price}</div>
-    </div>
-  </div>
-);
-
+import { cartApi } from "../../api/cartApi";
+import ProductCard from "../../components/ProductCard";
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +35,15 @@ const HomePage = () => {
 
     fetchProducts();
   }, []);
-
+  const handleAddToCart = async () => {
+    try {
+      const res = await cartApi({ productId: products._id });
+      console.log("Đã thêm vào giỏ:", res.data);
+      // dispatch hoặc cập nhật UI nếu cần
+    } catch (err) {
+      console.error("Lỗi khi thêm vào giỏ:", err);
+    }
+  };
   const indexOfLast = currentPage * productsPerPage;
   const indexOfFirst = indexOfLast - productsPerPage;
   const currentItems = products.slice(indexOfFirst, indexOfLast);
@@ -91,18 +83,29 @@ const HomePage = () => {
         <div className="row">
           {!loading &&
             !error &&
-            currentItems.map(
-              ({ id, title, description, thumbnail, price, images }) => (
-                <div key={id} className="col-md-4 mb-4">
+            currentItems.map((product, index) => {
+              const {
+                id,
+                _id, // nếu dùng MongoDB
+                title,
+                description,
+                thumbnail,
+                price,
+                images,
+              } = product;
+
+              return (
+                <div key={id || _id || index} className="col-md-4 mb-4">
                   <ProductCard
                     title={title}
                     description={description}
                     image={thumbnail || images?.[0] || ""}
                     price={price}
+                    onAddToCart={() => handleAddToCart(_id || id)}
                   />
                 </div>
-              )
-            )}
+              );
+            })}
         </div>
 
         {/* Pagination */}

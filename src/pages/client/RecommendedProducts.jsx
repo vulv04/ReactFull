@@ -43,8 +43,11 @@ const RecommendedProducts = () => {
         <h2 className="fw-bold">Bạn có thể thích</h2>
       </div>
       <div className="row g-4">
-        {products.slice(0, 4).map((product) => (
-          <div key={product.id} className="col-6 col-sm-4 col-md-3 col-lg-3">
+        {products.slice(0, 4).map((product, index) => (
+          <div
+            key={product.id || index}
+            className="col-6 col-sm-4 col-md-3 col-lg-3"
+          >
             <div className="card border-0 h-100 position-relative shadow-sm">
               {/* Badge icon */}
               <span className="position-absolute top-0 start-0 m-2 badge bg-light text-danger border">
